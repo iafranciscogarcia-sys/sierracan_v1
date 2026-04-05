@@ -4,23 +4,29 @@ const mobileMenu = document.querySelector(".mobile-menu");
 const mobileMenuToggle = document.querySelector(".mobile-menu-toggle");
 const mobileMenuClose = document.querySelector(".mobile-menu-close");
 const mobileMenuLinks = document.querySelectorAll(".mobile-menu-panel a");
-const revealItems = document.querySelectorAll(
-  ".intro-block, .care-section, .experience-strip, .gallery-section, .team-section, .proof-band, .reviews-section, .visit-section, .site-footer",
-);
 const heroPanels = document.querySelectorAll(".hero-media-panel");
 const parallaxNodes = document.querySelectorAll(".visual, .team-portrait, .gallery-card-dark");
 let heroRotationId = null;
+let mobileMenuCloseId = null;
 
 const closeMobileMenu = () => {
   if (!mobileMenu || !mobileMenuToggle) return;
-  mobileMenu.hidden = true;
+  window.clearTimeout(mobileMenuCloseId);
+  mobileMenu.classList.remove("is-open");
   mobileMenuToggle.setAttribute("aria-expanded", "false");
   body.classList.remove("menu-open");
+  mobileMenuCloseId = window.setTimeout(() => {
+    mobileMenu.hidden = true;
+  }, 280);
 };
 
 const openMobileMenu = () => {
   if (!mobileMenu || !mobileMenuToggle) return;
+  window.clearTimeout(mobileMenuCloseId);
   mobileMenu.hidden = false;
+  requestAnimationFrame(() => {
+    mobileMenu.classList.add("is-open");
+  });
   mobileMenuToggle.setAttribute("aria-expanded", "true");
   body.classList.add("menu-open");
 };
@@ -28,19 +34,6 @@ const openMobileMenu = () => {
 const updateHeaderState = () => {
   header.classList.toggle("is-scrolled", window.scrollY > 24);
 };
-
-const revealObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add("is-visible");
-      revealObserver.unobserve(entry.target);
-    });
-  },
-  { threshold: 0.18 },
-);
-
-revealItems.forEach((item) => revealObserver.observe(item));
 
 updateHeaderState();
 window.addEventListener("scroll", updateHeaderState, { passive: true });
@@ -103,6 +96,12 @@ if (mobileMenuClose) {
 
 mobileMenuLinks.forEach((link) => {
   link.addEventListener("click", closeMobileMenu);
+});
+
+window.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    closeMobileMenu();
+  }
 });
 
 setupHeroRotation();
