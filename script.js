@@ -1,10 +1,29 @@
 const header = document.querySelector(".site-header");
+const body = document.body;
+const mobileMenu = document.querySelector(".mobile-menu");
+const mobileMenuToggle = document.querySelector(".mobile-menu-toggle");
+const mobileMenuClose = document.querySelector(".mobile-menu-close");
+const mobileMenuLinks = document.querySelectorAll(".mobile-menu-panel a");
 const revealItems = document.querySelectorAll(
   ".intro-block, .care-section, .experience-strip, .gallery-section, .team-section, .proof-band, .reviews-section, .visit-section, .site-footer",
 );
 const heroPanels = document.querySelectorAll(".hero-media-panel");
 const parallaxNodes = document.querySelectorAll(".visual, .team-portrait, .gallery-card-dark");
 let heroRotationId = null;
+
+const closeMobileMenu = () => {
+  if (!mobileMenu || !mobileMenuToggle) return;
+  mobileMenu.hidden = true;
+  mobileMenuToggle.setAttribute("aria-expanded", "false");
+  body.classList.remove("menu-open");
+};
+
+const openMobileMenu = () => {
+  if (!mobileMenu || !mobileMenuToggle) return;
+  mobileMenu.hidden = false;
+  mobileMenuToggle.setAttribute("aria-expanded", "true");
+  body.classList.add("menu-open");
+};
 
 const updateHeaderState = () => {
   header.classList.toggle("is-scrolled", window.scrollY > 24);
@@ -66,7 +85,33 @@ const setupHeroRotation = () => {
   }, 2000);
 };
 
+if (mobileMenuToggle) {
+  mobileMenuToggle.addEventListener("click", () => {
+    const isOpen = mobileMenuToggle.getAttribute("aria-expanded") === "true";
+    if (isOpen) {
+      closeMobileMenu();
+      return;
+    }
+
+    openMobileMenu();
+  });
+}
+
+if (mobileMenuClose) {
+  mobileMenuClose.addEventListener("click", closeMobileMenu);
+}
+
+mobileMenuLinks.forEach((link) => {
+  link.addEventListener("click", closeMobileMenu);
+});
+
 setupHeroRotation();
 updateParallax();
 window.addEventListener("scroll", updateParallax, { passive: true });
-window.addEventListener("resize", setupHeroRotation, { passive: true });
+window.addEventListener("resize", () => {
+  setupHeroRotation();
+
+  if (window.innerWidth > 640) {
+    closeMobileMenu();
+  }
+}, { passive: true });
