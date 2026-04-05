@@ -1138,6 +1138,112 @@ dt {
   color: var(--accent);
 }
 
+.testimonials-section {
+  width: var(--container);
+  margin: 0 auto;
+  padding: 0 0 110px;
+}
+
+.testimonials-heading {
+  display: grid;
+  gap: 16px;
+  max-width: 860px;
+  margin-bottom: 34px;
+}
+
+.testimonials-heading h2 {
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(2.6rem, 5vw, 4.2rem);
+  font-weight: 600;
+  line-height: 0.96;
+  letter-spacing: -0.03em;
+}
+
+.testimonials-heading p:last-child {
+  max-width: 52ch;
+  color: var(--text-soft);
+  line-height: 1.7;
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.testimonial-card {
+  display: grid;
+  align-content: space-between;
+  gap: 26px;
+  min-height: 240px;
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: rgba(255, 249, 239, 0.54);
+  box-shadow: var(--shadow);
+  transition:
+    transform var(--duration-medium) var(--easing-soft),
+    border-color var(--duration-medium) var(--easing-primary),
+    box-shadow var(--duration-medium) var(--easing-primary);
+}
+
+.testimonial-stars {
+  display: inline-flex;
+  gap: 4px;
+  color: #d89a39;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.testimonial-card:nth-child(1),
+.testimonial-card:nth-child(2),
+.testimonial-card:nth-child(3) {
+  grid-column: span 4;
+}
+
+.testimonial-card:nth-child(4) {
+  grid-column: span 7;
+}
+
+.testimonial-card:nth-child(5) {
+  grid-column: span 5;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(184, 106, 47, 0.28);
+  box-shadow: var(--shadow-hover);
+}
+
+.testimonial-card-accent {
+  color: var(--white);
+  border-color: rgba(248, 245, 239, 0.12);
+  background:
+    linear-gradient(180deg, rgba(24, 22, 19, 0.82), rgba(24, 22, 19, 0.94)),
+    url("./fotos/perro_negro_piscina_2.jpg") center/cover;
+}
+
+.testimonial-quote {
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(1.45rem, 2vw, 1.95rem);
+  line-height: 1.12;
+}
+
+.testimonial-meta {
+  font-size: 0.84rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--accent);
+}
+
+.testimonial-card-accent .testimonial-meta {
+  color: rgba(248, 245, 239, 0.76);
+}
+
+.testimonial-card-accent .testimonial-stars {
+  color: #ffd37a;
+}
+
 .visit-section {
   display: grid;
   grid-template-columns: 1.05fr 0.95fr;
@@ -1296,8 +1402,17 @@ dt {
   .gallery-grid,
   .services-grid,
   .reviews-grid,
-  .proof-band {
+  .proof-band,
+  .testimonials-grid {
     grid-template-columns: 1fr;
+  }
+
+  .testimonial-card:nth-child(1),
+  .testimonial-card:nth-child(2),
+  .testimonial-card:nth-child(3),
+  .testimonial-card:nth-child(4),
+  .testimonial-card:nth-child(5) {
+    grid-column: auto;
   }
 
   .care-list,
@@ -1459,6 +1574,41 @@ dt {
   .facility-stats,
   .reviews-grid {
     grid-template-columns: 1fr;
+  }
+
+  .testimonials-section {
+    padding-bottom: 92px;
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(88%, 88%);
+    gap: 14px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 10px;
+    scrollbar-width: none;
+  }
+
+  .testimonials-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .testimonial-card {
+    width: 100%;
+    min-height: 260px;
+    scroll-snap-align: start;
+  }
+
+  .testimonial-card:nth-child(1),
+  .testimonial-card:nth-child(2),
+  .testimonial-card:nth-child(3),
+  .testimonial-card:nth-child(4),
+  .testimonial-card:nth-child(5) {
+    grid-column: auto;
   }
 
   .contact-panel,
